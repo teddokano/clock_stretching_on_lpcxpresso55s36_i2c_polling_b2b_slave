@@ -1,0 +1,4 @@
+/Users/tedd/dev/mcuxpresso/lpc55s36/lpcxpresso55s36_i2c_polling_b2b_slave/drivers/fsl_clock.h:930:20:CLOCK_EnableClock	24	static
+/Users/tedd/dev/mcuxpresso/lpc55s36/lpcxpresso55s36_i2c_polling_b2b_slave/drivers/fsl_iocon.h:182:22:IOCON_PinMuxSet	24	static
+../board/pin_mux.c:35:6:BOARD_InitBootPins	8	static
+../board/pin_mux.c:65:6:BOARD_InitPins	24	static
