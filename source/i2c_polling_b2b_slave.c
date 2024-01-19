@@ -51,8 +51,8 @@ int handling_I2C_target( i2c_slave_config_t *scp )
 {
     status_t reVal = kStatus_Fail;
 
-    reVal = target_virtual_transfer( EXAMPLE_I2C_SLAVE );
-//    reVal = target_mem_transfer( EXAMPLE_I2C_SLAVE );
+//    reVal = target_virtual_transfer( EXAMPLE_I2C_SLAVE );
+    reVal = target_mem_transfer( EXAMPLE_I2C_SLAVE );
 
     if (reVal != kStatus_Success)
         return -1;
