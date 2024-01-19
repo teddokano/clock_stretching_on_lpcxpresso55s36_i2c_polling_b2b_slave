@@ -1,6 +1,7 @@
 /Users/tedd/dev/mcuxpresso/lpc55s36/lpcxpresso55s36_i2c_polling_b2b_slave/drivers/fsl_i2c.h:923:20:I2C_SlaveEnable	16	static
-../source/i2c_polling_b2b_slave.c:48:6:clock_stretch	24	static
-../source/i2c_polling_b2b_slave.c:54:5:main	24	static
-../source/i2c_polling_b2b_slave.c:64:6:init_I2C_target	16	static
-../source/i2c_polling_b2b_slave.c:95:5:handling_I2C_target	24	static
-../source/i2c_polling_b2b_slave.c:106:10:target_virtual_transfer	24	static
+../source/i2c_polling_b2b_slave.c:24:6:clock_stretch	24	static
+../source/i2c_polling_b2b_slave.c:30:5:main	24	static
+../source/i2c_polling_b2b_slave.c:50:5:handling_I2C_target	24	static
+../source/i2c_polling_b2b_slave.c:61:10:target_mem_transfer	24	static
+../source/i2c_polling_b2b_slave.c:101:10:target_virtual_transfer	24	static
+../source/i2c_polling_b2b_slave.c:132:6:init_I2C_target	16	static
