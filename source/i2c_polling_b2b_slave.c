@@ -40,8 +40,16 @@ uint8_t g_slave_buff[I2C_DATA_LENGTH];
 
  ******************************************************************************/
 
+void clock_stretch( unsigned int wait );
 void init_I2C_target( i2c_slave_config_t *scp );
 int handling_I2C_target( i2c_slave_config_t *scp );
+status_t target_virtual_transfer( I2C_Type *base );
+
+void clock_stretch( unsigned int wait )
+{
+    for ( volatile int i = 0; i < wait; i++ )
+    	;
+}
 
 int main( void )
 {
@@ -89,101 +97,39 @@ int handling_I2C_target( i2c_slave_config_t *scp )
     status_t reVal = kStatus_Fail;
 
     /* Start accepting I2C transfers on the I2C slave peripheral */
-    reVal = I2C_SlaveReadBlocking(EXAMPLE_I2C_SLAVE, g_slave_buff, WRITE_TRANSFER_DATA_SIZE);
+    reVal = target_virtual_transfer( EXAMPLE_I2C_SLAVE );
 
     if (reVal != kStatus_Success)
-    {
         return -1;
-    }
-
-    PRINTF("1\r\n");
 }
 
-
-int main_original(void)
+status_t target_virtual_transfer( I2C_Type *base )
 {
-    i2c_slave_config_t slaveConfig;
-    status_t reVal = kStatus_Fail;
-    uint8_t subaddress;
+    uint32_t	stat;
+    uint8_t		val		= 0xAA;
 
-    /* attach 12 MHz clock to FLEXCOMM0 (debug console) */
-    CLOCK_SetClkDiv(kCLOCK_DivFlexcom0Clk, 0u, false);
-    CLOCK_SetClkDiv(kCLOCK_DivFlexcom0Clk, 1u, true);
-    CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
+    I2C_SlaveEnable(EXAMPLE_I2C_SLAVE, true);
 
-    /* attach 12 MHz clock to FLEXCOMM2 (I2C master) */
-    CLOCK_SetClkDiv(kCLOCK_DivFlexcom2Clk, 0u, false);
-    CLOCK_SetClkDiv(kCLOCK_DivFlexcom2Clk, 1u, true);
-    CLOCK_AttachClk(kFRO12M_to_FLEXCOMM2);
+    if ( (uint32_t)kStatus_I2C_Timeout == (stat = I2C_SlavePollPending(base)) )
+        return kStatus_I2C_Timeout;
 
-    /* reset FLEXCOMM for I2C */
-    RESET_PeripheralReset(kFC2_RST_SHIFT_RSTn);
+    switch ( ((stat & I2C_STAT_SLVSTATE_MASK) >> I2C_STAT_SLVSTATE_SHIFT) )
+	{
+		case I2C_STAT_SLVST_ADDR:
+	        clock_stretch( ADDRESS_ACK_STRETCH );
+	        base->SLVCTL = I2C_SLVCTL_SLVCONTINUE_MASK;
+	        break;
+		case I2C_STAT_SLVST_RX:
+    		val = (uint8_t)base->SLVDAT;
+            clock_stretch( WRITE_DATA_ACK_STRETCH );
+    		base->SLVCTL = I2C_SLVCTL_SLVCONTINUE_MASK;
+			break;
+		case I2C_STAT_SLVST_TX:
+            base->SLVDAT = I2C_SLVDAT_DATA(val);
+            clock_stretch( READ_DATA_ACK_STRETCH );
+            base->SLVCTL = I2C_SLVCTL_SLVCONTINUE_MASK;
+			break;
+	}
 
-    BOARD_InitPins();
-    BOARD_BootClockPLL150M();
-    BOARD_InitDebugConsole();
-
-    PRINTF("\r\nI2C board2board polling example -- Slave transfer.\r\n\r\n");
-
-    /* Set up i2c slave first*/
-    I2C_SlaveGetDefaultConfig(&slaveConfig);
-
-    /* Change the slave address */
-    slaveConfig.address0.address = I2C_MASTER_SLAVE_ADDR_7BIT;
-
-    PRINTF("TEST\r\n");
-
-    /* Initialize the I2C slave peripheral */
-    I2C_SlaveInit(EXAMPLE_I2C_SLAVE, &slaveConfig, I2C_SLAVE_CLOCK_FREQUENCY);
-
-    memset(g_slave_buff, 0, sizeof(g_slave_buff));
-
-    PRINTF("0\r\n");
-
-    /* Start accepting I2C transfers on the I2C slave peripheral */
-    reVal = I2C_SlaveReadBlocking(EXAMPLE_I2C_SLAVE, g_slave_buff, I2C_DATA_LENGTH);
-
-    if (reVal != kStatus_Success)
-    {
-        PRINTF("(%d)\r\n",reVal);
-        return -1;
-    }
-
-    PRINTF("1\r\n");
-
-    /* Start accepting I2C transfers on the I2C slave peripheral to simulate subaddress and will send ACK to master */
-    reVal = I2C_SlaveReadBlocking(EXAMPLE_I2C_SLAVE, &subaddress, 1);
-
-    if (reVal != kStatus_Success)
-    {
-        return -1;
-    }
-
-    PRINTF("2\r\n");
-
-    reVal = I2C_SlaveWriteBlocking(EXAMPLE_I2C_SLAVE, &g_slave_buff[2], g_slave_buff[1]);
-
-    if (reVal != kStatus_Success)
-    {
-        return -1;
-    }
-
-    PRINTF("3\r\n");
-
-    PRINTF("Slave received data :");
-    for (uint32_t i = 0U; i < g_slave_buff[1]; i++)
-    {
-        if (i % 8 == 0)
-        {
-            PRINTF("\r\n");
-        }
-        PRINTF("0x%2x  ", g_slave_buff[2 + i]);
-    }
-    PRINTF("\r\n\r\n");
-
-    PRINTF("\r\nEnd of I2C example .\r\n");
-
-    while (1)
-    {
-    }
+    return kStatus_Success;
 }

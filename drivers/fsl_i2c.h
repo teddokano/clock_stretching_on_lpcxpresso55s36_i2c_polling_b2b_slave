@@ -1144,6 +1144,13 @@ status_t I2C_SlaveTransferGetCount(I2C_Type *base, i2c_slave_handle_t *handle, s
  */
 void I2C_SlaveTransferHandleIRQ(I2C_Type *base, i2c_slave_handle_t *handle);
 
+
+
+uint32_t I2C_SlavePollPending(I2C_Type *base);
+void I2C_SlaveInternalStateMachineReset(I2C_Type *base);
+
+
+
 /*! @} */ /* end of Slave IRQ handler */
 
 /*! @} */ /* end of i2c_slave_driver */

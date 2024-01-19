@@ -5,11 +5,11 @@
  * Generated linker script file for LPC55S36
  * Created from library.ldt by FMCreateLinkLibraries
  * Using Freemarker v2.3.30
- * MCUXpresso IDE v11.9.0 [Build 2144] [2024-01-05] on 2024/01/19 5:26:26
+ * MCUXpresso IDE v11.9.0 [Build 2144] [2024-01-05] on 2024/01/19 10:30:49
  */
 
 GROUP (
-  "libcr_nohost_nf.a"
+  "libcr_semihost_nf.a"
   "libcr_c.a"
   "libcr_eabihelpers.a"
   "libgcc.a"

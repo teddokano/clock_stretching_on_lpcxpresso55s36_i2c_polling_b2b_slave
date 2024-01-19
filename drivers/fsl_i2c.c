@@ -58,7 +58,7 @@ static status_t I2C_InitTransferStateMachine(I2C_Type *base, i2c_master_handle_t
  * configuration remains unchanged.
  * @param base The I2C peripheral base address.
  */
-static void I2C_SlaveInternalStateMachineReset(I2C_Type *base);
+//static void I2C_SlaveInternalStateMachineReset(I2C_Type *base);
 
 /*!
  * @brief Compute CLKDIV
@@ -79,7 +79,7 @@ static status_t I2C_SlaveDivVal(uint32_t srcClock_Hz, i2c_slave_bus_speed_t busS
  * @param base The I2C peripheral base address.
  * @return status register at time the SLVPENDING bit is read as set
  */
-static uint32_t I2C_SlavePollPending(I2C_Type *base);
+//static uint32_t I2C_SlavePollPending(I2C_Type *base);
 
 /*!
  * @brief Invoke event from I2C_SlaveTransferHandleIRQ().
@@ -1291,7 +1291,7 @@ void I2C_MasterTransferHandleIRQ(I2C_Type *base, i2c_master_handle_t *handle)
     }
 }
 
-static void I2C_SlaveInternalStateMachineReset(I2C_Type *base)
+void I2C_SlaveInternalStateMachineReset(I2C_Type *base)
 {
     I2C_SlaveEnable(base, false); /* clear SLVEN Slave enable bit */
 }
@@ -1341,7 +1341,7 @@ static status_t I2C_SlaveDivVal(uint32_t srcClock_Hz, i2c_slave_bus_speed_t busS
     return kStatus_Success;
 }
 
-static uint32_t I2C_SlavePollPending(I2C_Type *base)
+uint32_t I2C_SlavePollPending(I2C_Type *base)
 {
     uint32_t stat;
 

@@ -28,9 +28,9 @@
 ../drivers/fsl_i2c.c:986:17:I2C_InitTransferStateMachine	48	static
 ../drivers/fsl_i2c.c:1047:17:I2C_RunTransferStateMachine	48	static
 ../drivers/fsl_i2c.c:1265:6:I2C_MasterTransferHandleIRQ	32	static
-../drivers/fsl_i2c.c:1294:13:I2C_SlaveInternalStateMachineReset	16	static
+../drivers/fsl_i2c.c:1294:6:I2C_SlaveInternalStateMachineReset	16	static
 ../drivers/fsl_i2c.c:1299:17:I2C_SlaveDivVal	32	static
-../drivers/fsl_i2c.c:1344:17:I2C_SlavePollPending	24	static
+../drivers/fsl_i2c.c:1344:10:I2C_SlavePollPending	24	static
 ../drivers/fsl_i2c.c:1369:13:I2C_SlaveInvokeEvent	40	static
 ../drivers/fsl_i2c.c:1397:13:I2C_SlaveAddressIRQ	32	static
 ../drivers/fsl_i2c.c:1456:17:I2C_SlaveTransferNonBlockingInternal	32	static
