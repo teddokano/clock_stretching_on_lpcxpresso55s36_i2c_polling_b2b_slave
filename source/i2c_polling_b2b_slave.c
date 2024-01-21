@@ -184,8 +184,8 @@ void init_I2C_target( i2c_slave_config_t *scp )
     I2C_SlaveGetDefaultConfig( scp );
 
     /* Change the slave address */
-    scp->address0.address = I2C_MASTER_SLAVE_ADDR_7BIT;
-    scp->address1.address = I2C_SUBADDR0_7BIT;
+    scp->address0.address = I2C_MAINADDR_7BIT;
+    scp->address1.address = I2C_SUBADDR1_7BIT;
 
     /* Initialize the I2C slave peripheral */
     I2C_SlaveInit(EXAMPLE_I2C_SLAVE, scp, I2C_SLAVE_CLOCK_FREQUENCY);
