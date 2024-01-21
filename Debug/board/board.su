@@ -1,2 +1,0 @@
-/Users/tedd/dev/mcuxpresso/lpc55s36/lpcxpresso55s36_i2c_polling_b2b_slave/utilities/fsl_debug_console.h:195:24:DbgConsole_Init	24	static
-../board/board.c:24:6:BOARD_InitDebugConsole	16	static

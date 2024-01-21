@@ -1608,7 +1608,7 @@ void I2C_SlaveGetDefaultConfig(i2c_slave_config_t *slaveConfig)
 
     /* default config enables slave address 0 match to general I2C call address zero */
     mySlaveConfig.enableSlave             = true;
-    mySlaveConfig.address1.addressDisable = true;
+    mySlaveConfig.address1.addressDisable = false;
     mySlaveConfig.address2.addressDisable = true;
     mySlaveConfig.address3.addressDisable = true;
 
