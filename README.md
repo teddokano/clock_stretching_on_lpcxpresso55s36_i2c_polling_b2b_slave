@@ -39,7 +39,7 @@ The data access (read and write) is done sequencially from specified memory offs
 The first byte after the [ADDR+W] is **offset** of start data writing. Data length for writing has no limitation. If it goes over memory size, the data write will be wrap-around.  
  
 **Memory reading** can be done by:  
-`[START] -[MainADDR+W]-[Offset]-[ReSTART]-[MainADDR+R]-[Data0]-[Data1]-…[DataN]-[STOP]`  
+`[START]-[MainADDR+W]-[Offset]-[ReSTART]-[MainADDR+R]-[Data0]-[Data1]-…[DataN]-[STOP]`  
 The first byte after the [ADDR+W] is **offset** of start data reading. Data length for reading has no limitation. If it goes over memory size, the data read will be wrap-around.  
 The [ReSTART] can be replaced by [STOP]-[START].  
 If the memory offset is not specified, the next byte of previously accessed.  
